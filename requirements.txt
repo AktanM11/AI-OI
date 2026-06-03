@@ -1,0 +1,11 @@
+langgraph
+langchain
+langchain-core
+langchain-huggingface
+langchain_openai
+duckduckgo-search
+huggingface_hub
+gradio
+pypdf
+pandas
+requests

@@ -104,7 +104,7 @@ def python_executor(task: str) -> str:
 
 tools = [
     {"type": "web_search"},
-    python_executor.tool.schema,
+    python_executor.tool,
 ]
 
 

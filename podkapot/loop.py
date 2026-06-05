@@ -19,15 +19,15 @@ class Chat(object):
         )
 
         router_output = self.Router(self.memory)
-
-        self.memory.append(
-            {
-                'role': 'assistant',
-                'content': router_output.response,
-            }
-        )
-
-        print("Assistant:", router_output.response)
+        
+        if router_output.response:
+            self.memory.append(
+                {
+                    'role': 'assistant',
+                    'content': router_output.response,
+                }
+            )
+            print("Assistant:", router_output.response)
 
         if router_output.is_agent_needed:
             
@@ -35,21 +35,23 @@ class Chat(object):
         
             if recurser_output.is_task_achievable:
                 while not recurser_output.is_task_completed:
+                    if recurser_output.next_task:
+                        self.memory.append(
+                            {
+                                'role': 'assistant',
+                                'content': recurser_output.next_task,
+                            }
+                        )
+                        print("Agent:", recurser_output.next_task)
+                        recurser_output = self.Recurser(recurser_output.next_task)
+                if recurser_output.final_response:
                     self.memory.append(
                         {
                             'role': 'assistant',
-                            'content': recurser_output.next_task,
+                            'content': recurser_output.final_response,
                         }
                     )
-                    print("Agent:", recurser_output.next_task)
-                    recurser_output = self.Recurser(recurser_output.next_task)
-                self.memory.append(
-                    {
-                        'role': 'assistant',
-                        'content': recurser_output.final_response,
-                    }
-                )
-                print("Agent:", recurser_output.final_response)
+                    print("Assistant:", recurser_output.final_response)
             else:
                 self.memory.append(
                     {

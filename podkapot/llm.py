@@ -20,10 +20,12 @@ class Agent(object):
         format: type[BaseModel],
         model: str = "gpt-5.5",
         tools: list = [],
+        recursion_limit: int = 5,
     ):
         self.instructions = instructions
         self.format = format
         self.model = model
+        self.recursion_limit = recursion_limit
         self.schemas = [
             tool.schema if hasattr(tool, "schema") else tool
             for tool in tools
@@ -39,10 +41,15 @@ class Agent(object):
             input=input,
         )
 
+        recursion_count = 0
         while True:
             if response.output_parsed is not None:
                 return response.output_parsed
-            
+
+            recursion_count += 1
+            if recursion_count >= self.recursion_limit:
+                raise ValueError("Recursion limit exceeded")
+
             function_calls = [
                 item
                 for item in response.output

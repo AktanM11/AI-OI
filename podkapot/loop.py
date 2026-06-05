@@ -5,9 +5,11 @@ class Chat(object):
         self,
         Router: Agent,
         Recurser: Agent,
+        memory_limit: int = 10,
     ):
         self.Router = Router
         self.Recurser = Recurser
+        self.memory_limit = memory_limit
         self.memory = []
 
     def __call__(self, input: str) -> str:
@@ -17,6 +19,8 @@ class Chat(object):
                 'content': input,
             }
         )
+        if len(self.memory) > self.memory_limit:
+            self.memory.pop(0)
 
         router_output = self.Router(self.memory)
         

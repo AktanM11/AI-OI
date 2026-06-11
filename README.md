@@ -1,6 +1,6 @@
-![Screenshot](image1.png)
-![Screenshot](image2.png)
-![Screenshot](image3.png)
+![Screenshot](/image1.png)
+![Screenshot](/image2.png)
+![Screenshot](/image3.png)
 
 
 - Прохожу по курсу Hugging face юниты  1-4, запускаю коды с Colab Notebooks по примерам с Hugging Face, где изучаю все тонкости кода и инструменты и описания промптов для модели.
